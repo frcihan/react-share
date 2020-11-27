@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
 import firebase from "../firebase/firebase.utils"
 
-console.log(firebase)
-
 const styles = makeStyles({
     wrapper: {
         marginTop: "10rem",
@@ -21,9 +19,9 @@ function Signup() {
         },
         onSubmit: values => {
             alert(JSON.stringify(values, null, 2));
+            firebase.register(values.email, values.password);
         },
     });
-    console.log(formik)
     const signupStyles = styles();
     return (
         <Container className={signupStyles.wrapper} maxWidth="sm">
