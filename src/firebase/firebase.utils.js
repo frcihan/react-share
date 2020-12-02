@@ -23,22 +23,34 @@ class Firebase {
     }
 
     // register registerWithEmailAndPassword
-
-    register(email, password) {
-        this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+    async register(displayName, email, password) {
+        try {
+            await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+            this.firebaseAuth.currentUser.updateProfile({
+                displayName,
+            });
+        } catch (err) {
+            console.log("Error: ", err);
+        }
     }
 
     // sign in with google GoogleAuthProvider
-
     useGoogleProvider() {
         const googleProvider = new firebase.auth.GoogleAuthProvider();
-
+        googleProvider.setCustomParameters({ prompt: "select_account" });
         this.firebaseAuth.signInWithPopup(googleProvider);
     }
 
-    // login  signInWithEmailAndPassword
-
     // logout signOut
+    signOut() {
+        this.firebaseAuth.signOut();
+    }
+    
+    // login  signInWithEmailAndPassword
+    signIn(email, password) {
+        this.firebaseAuth.signInWithEmailAndPassword(email, password);
+    }
+
 
     // forgot password sendPasswordResetEmail
 
